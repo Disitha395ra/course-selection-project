@@ -43,17 +43,18 @@ export default function Index() {
         }}>Explore new fields, advance your career, or start fresh—CourseMate guides you to the perfect course every step of the way!</Text>
       
         <TouchableOpacity style={styles.button}
-          onPress={()=>router.push('/auth/sginin')}
+          onPress={()=>router.push('/auth/signup')}
         >
           <Text style={[styles.buttonText,{color:Colors.PRIMARY}]}>Get Started</Text>
         </TouchableOpacity>
-        <View style={[styles.button, 
+
+        <TouchableOpacity style={[styles.button, 
           {backgroundColor:Colors.PRIMARY,
             borderWidth: 1,
             borderColor: Colors.WHITE,
           }]}>
           <Text style={[styles.buttonText,{color:Colors.WHITE}]}>Already have an account</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
