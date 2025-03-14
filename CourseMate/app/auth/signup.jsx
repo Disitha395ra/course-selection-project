@@ -2,8 +2,17 @@ import { Text, View, Image, TextInput, TouchableOpacity, Pressable } from "react
 import Colors from "../../constants/Colors";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 export default function Signup(){
     const router=useRouter();
+    const [fullname, setfullname] = useState('');   
+    const [email, setemail] = useState('');   
+    const [password, setpassword] = useState('');    
+    
+    const CreateNewAccount=()=>{
+        
+    }
+
     return(
         <View style={{
             display:'flex',
@@ -24,11 +33,13 @@ export default function Signup(){
                 fontFamily: "outfit-bold",
             }}>Create New Account</Text>
 
-            <TextInput placeholder='Fullname' style={styles.TextInput}/>
-            <TextInput placeholder='Email' style={styles.TextInput}/>
-            <TextInput placeholder='Password' secureTextEntry={true} style={styles.TextInput}/>
+            <TextInput placeholder='Fullname'  onChange={(value)=>setfullname(value)} style={styles.TextInput}/>
+            <TextInput placeholder='Email' onChange={(value)=>setemail(value)} style={styles.TextInput}/>
+            <TextInput placeholder='Password' onChange={(value)=>setpassword(value)} secureTextEntry={true} style={styles.TextInput}/>
 
-            <TouchableOpacity style={{
+            <TouchableOpacity 
+            onPress={CreateNewAccount}
+            style={{
                 backgroundColor: Colors.PRIMARY,
                 padding: 15,
                 width: '100%',
