@@ -12,7 +12,7 @@ export default function Index() {
       <Image source={require("../assets/images/landcover.jpg")}
       style={{
         width: "100%",
-        height: 350,
+        height: 300,
         marginTop:100,
       }}/>
       <View style={{
@@ -27,13 +27,25 @@ export default function Index() {
           fontWeight: "bold",
           textAlign: "center",
           color: Colors.WHITE,
+          marginTop: 20,
         }}>Welcome to CourseMate</Text>
         <Text style={{
           fontSize: 20,
           color: Colors.WHITE,
           textAlign: "center",
           marginTop: 20,
-        }}>Unlock endles learning opportunities and shape your future with the perfect course. Whether you're exploring new fields, advancing your career, or starting fresh, CourseMate is here to guide you every step of the way!</Text>
+        }}>Explore new fields, advance your career, or start fresh—CourseMate guides you to the perfect course every step of the way!</Text>
+      
+        <View style={styles.button}>
+          <Text style={[styles.buttonText,{color:Colors.PRIMARY}]}>Get Started</Text>
+        </View>
+        <View style={[styles.button, 
+          {backgroundColor:Colors.PRIMARY,
+            borderWidth: 1,
+            borderColor: Colors.WHITE,
+          }]}>
+          <Text style={[styles.buttonText,{color:Colors.WHITE}]}>Already have an account</Text>
+        </View>
       </View>
     </View>
   );
@@ -41,6 +53,14 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   button:{
-    
+    padding: 20,
+    backgroundColor: Colors.WHITE,
+    marginTop: 20,
+    borderRadius: 16,
+  }, 
+  buttonText:{
+    textAlign: "center",
+    fontSize: 15,
+    fontWeight: "bold",
   }
 })
