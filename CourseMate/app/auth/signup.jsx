@@ -13,11 +13,26 @@ export default function Signup(){
     
     const CreateNewAccount=()=>{
         createUserWithEmailAndPassword(auth, email, password)
-        .then(resp=>{
+        .then(async(resp)=>{
             const user=resp.user;
             console.log(user);
+            await SaveUser(user)
             // save user to database
         })
+        .catch(e =>{
+            console.log(e.message)
+        })
+    }
+
+    const SaveUser=async(user)=>{
+        await setDoc(doc(db,'users',email),{
+            name:fullname,
+            email:email,
+            member:false,
+            uid:user?.uid
+        })
+
+        //Navigate to new screen
     }
 
     return(
