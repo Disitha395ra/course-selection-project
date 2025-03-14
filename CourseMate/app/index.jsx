@@ -1,7 +1,11 @@
-import { Text, View, Image } from "react-native";
+import { Text, View, Image , TouchableOpacity} from "react-native";
 import Colors from "../constants/Colors";
 import { StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 export default function Index() {
+
+  const router=useRouter();
+
   return (
     <View
       style={{
@@ -38,9 +42,11 @@ export default function Index() {
           fontFamily: "outfit",
         }}>Explore new fields, advance your career, or start fresh—CourseMate guides you to the perfect course every step of the way!</Text>
       
-        <View style={styles.button}>
+        <TouchableOpacity style={styles.button}
+          onPress={()=>router.push('/auth/sginin')}
+        >
           <Text style={[styles.buttonText,{color:Colors.PRIMARY}]}>Get Started</Text>
-        </View>
+        </TouchableOpacity>
         <View style={[styles.button, 
           {backgroundColor:Colors.PRIMARY,
             borderWidth: 1,
