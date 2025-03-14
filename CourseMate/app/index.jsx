@@ -48,7 +48,7 @@ export default function Index() {
           <Text style={[styles.buttonText,{color:Colors.PRIMARY}]}>Get Started</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, 
+        <TouchableOpacity onPress={()=>router.push('/auth/signin')} style={[styles.button, 
           {backgroundColor:Colors.PRIMARY,
             borderWidth: 1,
             borderColor: Colors.WHITE,
