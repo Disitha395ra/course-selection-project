@@ -3,6 +3,8 @@ import Colors from "../../constants/Colors";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 export default function Signup(){
     const router=useRouter();
     const [fullname, setfullname] = useState('');   
@@ -10,7 +12,12 @@ export default function Signup(){
     const [password, setpassword] = useState('');    
     
     const CreateNewAccount=()=>{
-        
+        createUserWithEmailAndPassword(auth, email, password)
+        .then(resp=>{
+            const user=resp.user;
+            console.log(user);
+            // save user to database
+        })
     }
 
     return(
