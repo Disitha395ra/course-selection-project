@@ -28,12 +28,14 @@ export default function Index() {
           textAlign: "center",
           color: Colors.WHITE,
           marginTop: 20,
+          fontFamily: "outfit-bold",
         }}>Welcome to CourseMate</Text>
         <Text style={{
           fontSize: 20,
           color: Colors.WHITE,
           textAlign: "center",
-          marginTop: 20,
+          marginTop: 25,
+          fontFamily: "outfit",
         }}>Explore new fields, advance your career, or start fresh—CourseMate guides you to the perfect course every step of the way!</Text>
       
         <View style={styles.button}>
@@ -55,12 +57,13 @@ const styles = StyleSheet.create({
   button:{
     padding: 20,
     backgroundColor: Colors.WHITE,
-    marginTop: 20,
+    marginTop: 30,
     borderRadius: 16,
   }, 
   buttonText:{
     textAlign: "center",
     fontSize: 15,
     fontWeight: "bold",
+    fontFamily: "outfit",
   }
 })
