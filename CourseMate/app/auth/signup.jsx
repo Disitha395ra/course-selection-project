@@ -5,6 +5,8 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
+import { db, auth } from "../../config/firebaseConfig";
+import {UserDetailContext} from '../../context/UserDetailContext'
 
   // Adjust the path if needed
 
@@ -14,6 +16,7 @@ export default function Signup(){
     const [fullname, setfullname] = useState('');   
     const [email, setemail] = useState('');   
     const [password, setpassword] = useState('');    
+    const {userDetail, setUserDetail} = useContext(UserDetailContext);
     
     const CreateNewAccount=()=>{
         createUserWithEmailAndPassword(auth, email, password)
@@ -29,12 +32,15 @@ export default function Signup(){
     }
 
     const SaveUser=async(user)=>{
-        await setDoc(doc(db,'users',email),{
+        const data = {
             name:fullname,
             email:email,
             member:false,
             uid:user?.uid
-        })
+        }
+        await setDoc(doc(db,'users',email),data)
+
+        setUserDetail(data);
 
         //Navigate to new screen
     }
