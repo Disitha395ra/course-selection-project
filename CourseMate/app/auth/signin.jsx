@@ -1,4 +1,4 @@
-import { Text, View, Image, TextInput, TouchableOpacity, Pressable, ToastAndroid } from "react-native";
+import { Text, View, Image, TextInput, TouchableOpacity, Pressable, ToastAndroid, ActivityIndicator } from "react-native";
 import Colors from "../../constants/Colors";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
@@ -12,15 +12,19 @@ export default function Signin(){
     const [email, setemail] = useState();
     const [password, setpassword] = useState();
     const {userDetail, setUserDetail} = useContext(UserDetailContext);
-
+    const [loading, setLoading] = useState(false);
     const onSignInClick=()=>{
+        setLoading(true);
         signInWithEmailAndPassword(auth, email, password)
         .then(async(resp)=>{
             const user=resp.user;
             console.log(user);
             await getUserDetail();
+            setLoading(false);
+            router.replace('/(tabs)/home')
         }).catch(e=>{
             console.log(e.message);
+            setLoading(false);
             ToastAndroid.show("Incorrect Email & Password", ToastAndroid.BOTTOM)
         })
     }
@@ -60,6 +64,7 @@ export default function Signin(){
         
                     <TouchableOpacity 
                     onPress={onSignInClick}
+                    disabled={loading}
                     style={{
                         backgroundColor: Colors.PRIMARY,
                         padding: 15,
@@ -67,12 +72,14 @@ export default function Signin(){
                         borderRadius: 10,
                         marginTop: 25,
                     }}>
-                        <Text style={{
+                        {!loading?<Text style={{
                             fontFamily: "outfit",
                             fontSize:20,
                             color: Colors.WHITE,
                             textAlign: 'center',
-                        }}>Sgin In</Text>
+                        }}>Sgin In</Text>:
+                        <ActivityIndicator size={'large'} color={Colors.WHITE}/>
+                    }
                     </TouchableOpacity>
         
                         <View style={{
