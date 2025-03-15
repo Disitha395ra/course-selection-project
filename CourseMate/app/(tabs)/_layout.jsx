@@ -6,7 +6,9 @@ import React from 'react';
 
 export default function _layout(){
     return(
-        <Tabs>
+        <Tabs screenOptions={{
+            headerShown:false
+        }}>
             <Tabs.Screen name="home" 
             options={{
                 tabBarIcon:({color,size})=><Ionicons name="home-outline" size={size} color={color} />,
