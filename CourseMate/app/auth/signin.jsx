@@ -7,6 +7,7 @@ import {auth,db} from '../../config/firebaseConfig'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
 import { UserDetailContext } from "../../context/UserDetailContext";
+import { useContext } from "react";
 export default function Signin(){
     const router=useRouter();
     const [email, setemail] = useState();

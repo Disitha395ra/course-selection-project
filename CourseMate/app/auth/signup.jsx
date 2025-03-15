@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { db, auth } from "../../config/firebaseConfig";
 import {UserDetailContext} from '../../context/UserDetailContext'
+import { useContext } from "react";
 
   // Adjust the path if needed
 
