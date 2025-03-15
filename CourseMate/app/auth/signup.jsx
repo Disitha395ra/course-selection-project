@@ -1,4 +1,4 @@
-import { Text, View, Image, TextInput, TouchableOpacity, Pressable } from "react-native";
+import { Text, View, Image, TextInput, TouchableOpacity, Pressable, ToastAndroid, ActivityIndicator } from "react-native";
 import Colors from "../../constants/Colors";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
@@ -9,41 +9,59 @@ import { db, auth } from "../../config/firebaseConfig";
 import {UserDetailContext} from '../../context/UserDetailContext'
 import { useContext } from "react";
 
-  // Adjust the path if needed
-
-
 export default function Signup(){
     const router=useRouter();
     const [fullname, setfullname] = useState('');   
     const [email, setemail] = useState('');   
     const [password, setpassword] = useState('');    
+    const [loading, setLoading] = useState(false);
     const {userDetail, setUserDetail} = useContext(UserDetailContext);
     
     const CreateNewAccount=()=>{
+        if(!email || !password || !fullname) {
+            ToastAndroid.show("Please fill all fields", ToastAndroid.BOTTOM);
+            return;
+        }
+        setLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
         .then(async(resp)=>{
             const user=resp.user;
             console.log(user);
-            await SaveUser(user)
-            // save user to database
+            await SaveUser(user);
+            setLoading(false);
+            router.replace('/(tabs)/home');
         })
         .catch(e =>{
-            console.log(e.message)
+            setLoading(false);
+            console.log(e.message);
+            let errorMessage = "An error occurred";
+            if(e.code === 'auth/email-already-in-use') {
+                errorMessage = "This email is already registered";
+            } else if(e.code === 'auth/invalid-email') {
+                errorMessage = "Invalid email address";
+            } else if(e.code === 'auth/weak-password') {
+                errorMessage = "Password should be at least 6 characters";
+            } else if(e.code === 'auth/network-request-failed') {
+                errorMessage = "Network error. Please check your internet connection";
+            }
+            ToastAndroid.show(errorMessage, ToastAndroid.BOTTOM);
         })
     }
 
     const SaveUser=async(user)=>{
-        const data = {
-            name:fullname,
-            email:email,
-            member:false,
-            uid:user?.uid
+        try {
+            const data = {
+                name:fullname,
+                email:email,
+                member:false,
+                uid:user?.uid
+            }
+            await setDoc(doc(db,'users',email),data)
+            setUserDetail(data);
+        } catch(error) {
+            console.log(error);
+            ToastAndroid.show("Error saving user data", ToastAndroid.BOTTOM);
         }
-        await setDoc(doc(db,'users',email),data)
-
-        setUserDetail(data);
-
-        //Navigate to new screen
     }
 
     return(
@@ -66,12 +84,28 @@ export default function Signup(){
                 fontFamily: "outfit-bold",
             }}>Create New Account</Text>
 
-            <TextInput placeholder='Fullname'  onChange={(value)=>setfullname(value)} style={styles.TextInput}/>
-            <TextInput placeholder='Email' onChange={(value)=>setemail(value)} style={styles.TextInput}/>
-            <TextInput placeholder='Password' onChange={(value)=>setpassword(value)} secureTextEntry={true} style={styles.TextInput}/>
+            <TextInput 
+                placeholder='Fullname'  
+                onChangeText={(value)=>setfullname(value)} 
+                style={styles.TextInput}
+            />
+            <TextInput 
+                placeholder='Email' 
+                onChangeText={(value)=>setemail(value)} 
+                style={styles.TextInput}
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
+            <TextInput 
+                placeholder='Password' 
+                onChangeText={(value)=>setpassword(value)} 
+                secureTextEntry={true} 
+                style={styles.TextInput}
+            />
 
             <TouchableOpacity 
             onPress={CreateNewAccount}
+            disabled={loading}
             style={{
                 backgroundColor: Colors.PRIMARY,
                 padding: 15,
@@ -79,12 +113,16 @@ export default function Signup(){
                 borderRadius: 10,
                 marginTop: 25,
             }}>
-                <Text style={{
-                    fontFamily: "outfit",
-                    fontSize:20,
-                    color: Colors.WHITE,
-                    textAlign: 'center',
-                }}>Create Account</Text>
+                {!loading ? (
+                    <Text style={{
+                        fontFamily: "outfit",
+                        fontSize:20,
+                        color: Colors.WHITE,
+                        textAlign: 'center',
+                    }}>Create Account</Text>
+                ) : (
+                    <ActivityIndicator size="large" color={Colors.WHITE} />
+                )}
             </TouchableOpacity>
 
                 <View style={{
@@ -101,7 +139,7 @@ export default function Signup(){
                             <Text style={{
                                 color: Colors.PRIMARY,
                                 fontFamily: "outfit-bold",
-                            }}>Sgin-In Here</Text>
+                            }}>Sign In Here</Text>
                     </Pressable>
                 </View>
            
