@@ -44,7 +44,7 @@ export default function Signup(){
             } else if(e.code === 'auth/network-request-failed') {
                 errorMessage = "Network error. Please check your internet connection";
             }
-            ToastAndroid.show(errorMessage, ToastAndroid.BOTTOM);
+            showToast(errorMessage);
         })
     }
 
@@ -60,7 +60,7 @@ export default function Signup(){
             setUserDetail(data);
         } catch(error) {
             console.log(error);
-            ToastAndroid.show("Error saving user data", ToastAndroid.BOTTOM);
+            showToast("Error saving user data");
         }
     }
 
