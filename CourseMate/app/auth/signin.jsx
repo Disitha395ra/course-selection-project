@@ -1,16 +1,36 @@
-import { Text, View, Image, TextInput, TouchableOpacity, Pressable } from "react-native";
+import { Text, View, Image, TextInput, TouchableOpacity, Pressable, ToastAndroid } from "react-native";
 import Colors from "../../constants/Colors";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import {auth,db} from '../../config/firebaseConfig'
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
+import { UserDetailContext } from "../../context/UserDetailContext";
 export default function Signin(){
     const router=useRouter();
     const [email, setemail] = useState();
     const [password, setpassword] = useState();
+    const {userDetail, setUserDetail} = useContext(UserDetailContext);
 
     const onSignInClick=()=>{
-
+        signInWithEmailAndPassword(auth, email, password)
+        .then(async(resp)=>{
+            const user=resp.user;
+            console.log(user);
+            await getUserDetail();
+        }).catch(e=>{
+            console.log(e.message);
+            ToastAndroid.show("Incorrect Email & Password", ToastAndroid.BOTTOM)
+        })
     }
+
+    const getUserDetail=async()=>{
+        const result = await getDoc(doc(db,'users',email));
+        console.log(result.data());
+        setUserDetail(result.data());
+    }
+
     return(
         <View style={{
                     display:'flex',
