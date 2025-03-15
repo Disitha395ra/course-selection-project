@@ -2,8 +2,15 @@ import { Text, View, Image, TextInput, TouchableOpacity, Pressable } from "react
 import Colors from "../../constants/Colors";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 export default function Signin(){
     const router=useRouter();
+    const [email, setemail] = useState();
+    const [password, setpassword] = useState();
+
+    const onSignInClick=()=>{
+
+    }
     return(
         <View style={{
                     display:'flex',
@@ -24,10 +31,16 @@ export default function Signin(){
                         fontFamily: "outfit-bold",
                     }}>Welcome Back</Text>
         
-                    <TextInput placeholder='Email' style={styles.TextInput}/>
-                    <TextInput placeholder='Password' secureTextEntry={true} style={styles.TextInput}/>
+                    <TextInput placeholder='Email' 
+                    onChangeText={(value)=>setemail(value)}
+                    style={styles.TextInput}/>
+                    <TextInput placeholder='Password' secureTextEntry={true} 
+                    onChangeText={(value)=>setpassword(value)}
+                    style={styles.TextInput}/>
         
-                    <TouchableOpacity style={{
+                    <TouchableOpacity 
+                    onPress={onSignInClick}
+                    style={{
                         backgroundColor: Colors.PRIMARY,
                         padding: 15,
                         width: '100%',
