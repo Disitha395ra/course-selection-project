@@ -9,3 +9,7 @@ export default function Progress(){
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+
+});

@@ -9,3 +9,7 @@ export default function Explore(){
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+
+});
