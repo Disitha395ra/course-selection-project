@@ -4,6 +4,9 @@ import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../config/firebaseConfig";  // Adjust the path if needed
+
 
 export default function Signup(){
     const router=useRouter();
