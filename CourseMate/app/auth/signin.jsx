@@ -1,4 +1,4 @@
-import { Text, View, Image, TextInput, TouchableOpacity, Pressable, ToastAndroid, ActivityIndicator } from "react-native";
+import { Text, View, Image, TextInput, TouchableOpacity, Pressable, ToastAndroid, ActivityIndicator, Alert } from "react-native";
 import Colors from "../../constants/Colors";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
@@ -26,15 +26,19 @@ export default function Signin(){
         }).catch(e=>{
             console.log(e.message);
             setLoading(false);
-            ToastAndroid.show("Incorrect Email & Password", ToastAndroid.BOTTOM)
+            Alert.alert("Login Failed", "Incorrect Email or Password.");
         })
     }
 
-    const getUserDetail=async()=>{
-        const result = await getDoc(doc(db,'users',email));
-        console.log(result.data());
-        setUserDetail(result.data());
-    }
+    const getUserDetail = async () => {
+        const result = await getDoc(doc(db, 'users', email));
+        if (result.exists()) {
+            console.log(result.data());
+            setUserDetail(result.data());
+        } else {
+            Alert.alert("Error", "User data not found.");
+        }
+    };
 
     return(
         <View style={{
