@@ -7,6 +7,7 @@ import {auth} from '../config/firebaseConfig'
 import { getDoc, doc } from "firebase/firestore";
 import { useContext } from "react";
 import { UserDetailContext } from "../context/UserDetailContext";
+import { db} from "../config/firebaseConfig";
 
 export default function Index() {
 
