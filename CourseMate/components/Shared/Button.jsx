@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import Colors from '../../constants/Colors';
 
 export default function Button({ text, type = "fill", onPress }) {
     return (
@@ -9,6 +10,8 @@ export default function Button({ text, type = "fill", onPress }) {
             width: '100%',
             borderRadius: 15,
             marginTop: 15,
+            borderWidth: 1,
+            borderColor: Colors.PRIMARY,
             backgroundColor: type == 'fill' ? Colors.PRIMARY : Colors.WHITE
         }}>
             <Text style={{
