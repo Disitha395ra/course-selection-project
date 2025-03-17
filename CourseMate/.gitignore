@@ -39,3 +39,6 @@ app-example
 
 # firebase app
 config
+
+# .env
+.env

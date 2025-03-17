@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import {StyleSheet} from 'react-native';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Shared/Button';
