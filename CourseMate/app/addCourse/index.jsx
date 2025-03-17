@@ -3,12 +3,19 @@ import { View, Text, TextInput } from 'react-native';
 import {StyleSheet} from 'react-native';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Shared/Button';
-
+import { GenerateTopicsAIModel } from '../../config/AiModel';
 export default function AddCourse() {
 
     const [loading, setloading]=useState(false);
-    const onGenerateTopic=()=>{
+    const [userInput, setuserInput] = useState();
+    const onGenerateTopic=async()=>{
+        setloading(true);
         //get topic ideas from AI model
+        const PROMPT=userInput.Prompt.IDEA;
+        const aiResp=await GenerateTopicsAIModel.sendMessage(PROMPT);
+        const topicIdea = aiResp.response.text();
+        console.log(topicIdea);
+        setloading(false);
     }
     return (
         <View style={{
@@ -39,6 +46,7 @@ export default function AddCourse() {
                 style={styles.textInput}
                 numberOfLines={3}
                 multiline={true}
+                onChangeText={(value)=>setuserInput(value)}
             />
 
             <Button text={'Generate Topic'} type='outline' 
