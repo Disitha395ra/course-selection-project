@@ -7,7 +7,7 @@ export default function NoCourse(){
     const router=useRouter();
     return(
         <View style={{
-            marginTop:40,
+            marginTop:90,
             display:'flex',
             alignItems: 'center',
         }}>

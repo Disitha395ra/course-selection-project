@@ -15,6 +15,7 @@ export default function AddCourse() {
             padding: 25,
             backgroundColor: Colors.WHITE,
             flex: 1,
+            paddingTop:50,
         }}>
             <Text style={{
                 fontFamily: 'outfit-bold',
