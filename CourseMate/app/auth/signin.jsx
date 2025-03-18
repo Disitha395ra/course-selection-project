@@ -32,12 +32,12 @@ export default function Signin() {
     try {
       const resp = await signInWithEmailAndPassword(auth, email, password);
       const user = resp.user;
-      console.log(user);
+      //console.log(user);
 
       // Fetch user details from Firestore after successful authentication
       const result = await getDoc(doc(db, "users", email));
       if (result.exists()) {
-        console.log("User data:", result.data());
+        //console.log("User data:", result.data());
         setUserDetail(result.data());
       } else {
         Alert.alert("Error", "User data not found.");
@@ -188,3 +188,4 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+console
