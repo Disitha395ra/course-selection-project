@@ -36,7 +36,7 @@ export default function Signup() {
                 console.log(user);
                 await SaveUser(user);
                 setLoading(false);
-                router.replace('/(tabs)/home');
+                router.push("/auth/signin");
             })
             .catch(e => {
                 setLoading(false);
