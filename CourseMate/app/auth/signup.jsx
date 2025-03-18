@@ -36,7 +36,7 @@ export default function Signup() {
                 console.log(user);
                 await SaveUser(user);
                 setLoading(false);
-                router.push("/auth/signin");
+                router.push("../auth/signin.jsx");
             })
             .catch(e => {
                 setLoading(false);
