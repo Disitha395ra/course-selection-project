@@ -18,6 +18,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
 import { UserDetailContext } from "../../context/UserDetailContext";
 import { useContext } from "react";
+import React, {useEffect } from "react";
 export default function Signin() {
   const router = useRouter();
   const [email, setemail] = useState();
@@ -28,25 +29,48 @@ export default function Signin() {
   const onSignInClick = async () => {
     setLoading(true);
 
-    const result = await getDoc(doc(db, "users", email));
-    if (result.exists()) {
-      console.log(result.data());
-      setUserDetail(result.data());
-    } else {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(async (resp) => {
-          const user = resp.user;
-          console.log(user);
-          setLoading(false);
-          router.replace("/(tabs)/home");
-        })
-        .catch((e) => {
-          console.log(e.message);
-          setLoading(false);
-          Alert.alert("Login Failed", "Incorrect Email or Password.");
-        });
+    try {
+      const resp = await signInWithEmailAndPassword(auth, email, password);
+      const user = resp.user;
+      console.log(user);
+
+      // Fetch user details from Firestore after successful authentication
+      const result = await getDoc(doc(db, "users", email));
+      if (result.exists()) {
+        console.log("User data:", result.data());
+        setUserDetail(result.data());
+      } else {
+        Alert.alert("Error", "User data not found.");
+      }
+
+      setLoading(false);
+      router.replace("/(tabs)/home");
+    } catch (e) {
+      console.log(e.message);
+      setLoading(false);
+      Alert.alert("Login Failed", "Incorrect Email or Password.");
     }
   };
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      if (!email) return;
+
+      try {
+        const result = await getDoc(doc(db, "users", email));
+        if (result.exists()) {
+          console.log("User data:", result.data());
+          setUserDetail(result.data());
+        } else {
+          Alert.alert("Error", "User data not found.");
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, [email]);
 
   const getUserDetail = async () => {
     const result = await getDoc(doc(db, "users", email));
